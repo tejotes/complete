@@ -1,3 +1,5 @@
 micronaut:
   application:
     name: complete
+greeting:
+    stem: Hello

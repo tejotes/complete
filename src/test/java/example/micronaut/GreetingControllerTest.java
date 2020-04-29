@@ -1,7 +1,6 @@
 package example.micronaut;
 
-import io.micronaut.http.client.RxHttpClient;
-import io.micronaut.http.client.annotation.Client;
+import example.micronaut.service.GreetingClient;
 import io.micronaut.test.annotation.MicronautTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,13 +11,11 @@ import javax.inject.Inject;
 public class GreetingControllerTest {
 
     @Inject
-    @Client("/")
-    RxHttpClient client;
+    GreetingClient client;
 
     @Test
     void testGreet() {
-        String result = client.retrieve("/greet/Fred").blockingFirst();
+        String result = client.greet("Fred").blockingGet().getText();
         Assertions.assertEquals("Hello Fred", result);
     }
-
 }
