@@ -7,7 +7,7 @@ datasources:
   default:
     url: ${JDBC_URL:`jdbc:postgresql://nuc4010.fritz.box:5432/tejotes`}
     username: ${JDBC_USER:tejotes}
-    password: ${JDBC_PASSWORD:Neptun73.}
+    password: ${JDBC_PASSWORD:xxx}
     driverClassName: ${JDBC_DRIVER:org.postgresql.Driver}
 jpa:
   default:
