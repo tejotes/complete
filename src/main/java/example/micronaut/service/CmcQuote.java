@@ -15,20 +15,20 @@ public class CmcQuote {
     private BigDecimal marketCap;
 
     @JsonProperty("percent_change_1h")
-    private Double percent_change_1h;
+    private Double percentChange1h;
 
     @JsonProperty("percent_change_24h")
-    private Double percent_change_24h;
+    private Double percentChange24h;
 
     @JsonProperty("percent_change_7d")
-    private Double percent_change_7d;
+    private Double percentChange7d;
 
     @JsonProperty("last_updated")
     private String lastUpdated;
 
     @Override
     public String toString() {
-        return "CmcQuote{" + "price=" + price + ", marketCap=" + marketCap + ", percent_change_1h=" + percent_change_1h + ", percent_change_24h=" + percent_change_24h + ", percent_change_7d=" + percent_change_7d + ", lastUpdated='" + lastUpdated + '\'' + '}';
+        return "CmcQuote{" + "price=" + price + ", marketCap=" + marketCap + ", percent_change_1h=" + percentChange1h + ", percent_change_24h=" + percentChange24h + ", percent_change_7d=" + percentChange7d + ", lastUpdated='" + lastUpdated + '\'' + '}';
     }
 
     public BigDecimal getPrice() {
@@ -47,28 +47,28 @@ public class CmcQuote {
         this.marketCap = marketCap;
     }
 
-    public Double getPercent_change_1h() {
-        return percent_change_1h;
+    public Double getPercentChange1h() {
+        return percentChange1h;
     }
 
-    public void setPercent_change_1h(Double percent_change_1h) {
-        this.percent_change_1h = percent_change_1h;
+    public void setPercentChange1h(Double percentChange1h) {
+        this.percentChange1h = percentChange1h;
     }
 
-    public Double getPercent_change_24h() {
-        return percent_change_24h;
+    public Double getPercentChange24h() {
+        return percentChange24h;
     }
 
-    public void setPercent_change_24h(Double percent_change_24h) {
-        this.percent_change_24h = percent_change_24h;
+    public void setPercentChange24h(Double percentChange24h) {
+        this.percentChange24h = percentChange24h;
     }
 
-    public Double getPercent_change_7d() {
-        return percent_change_7d;
+    public Double getPercentChange7d() {
+        return percentChange7d;
     }
 
-    public void setPercent_change_7d(Double percent_change_7d) {
-        this.percent_change_7d = percent_change_7d;
+    public void setPercentChange7d(Double percentChange7d) {
+        this.percentChange7d = percentChange7d;
     }
 
     public String getLastUpdated() {

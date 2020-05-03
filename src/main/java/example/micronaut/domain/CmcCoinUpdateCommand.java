@@ -26,14 +26,15 @@ public class CmcCoinUpdateCommand {
 
     private Integer cmcRank;
 
-    private LocalDateTime created;
-
-    private LocalDateTime modified;
-
     public CmcCoinUpdateCommand() {
     }
 
-    public CmcCoinUpdateCommand(@NotNull Integer id, String name, String symbol, String slug, BigDecimal circulatingSupply, BigDecimal totalSupply, BigDecimal maxSupply, Integer cmcRank, LocalDateTime created, LocalDateTime modified) {
+    @Override
+    public String toString() {
+        return "CmcCoinUpdateCommand{" + "id=" + id + ", name='" + name + '\'' + ", symbol='" + symbol + '\'' + ", slug='" + slug + '\'' + ", circulatingSupply=" + circulatingSupply + ", totalSupply=" + totalSupply + ", maxSupply=" + maxSupply + ", cmcRank=" + cmcRank + '}';
+    }
+
+    public CmcCoinUpdateCommand(@NotNull Integer id, String name, String symbol, String slug, BigDecimal circulatingSupply, BigDecimal totalSupply, BigDecimal maxSupply, Integer cmcRank) {
         this.id = id;
         this.name = name;
         this.symbol = symbol;
@@ -42,13 +43,6 @@ public class CmcCoinUpdateCommand {
         this.totalSupply = totalSupply;
         this.maxSupply = maxSupply;
         this.cmcRank = cmcRank;
-        this.created = created;
-        this.modified = modified;
-    }
-
-    @Override
-    public String toString() {
-        return "CmcCoinUpdateCommand{" + "id=" + id + ", name='" + name + '\'' + ", symbol='" + symbol + '\'' + ", slug='" + slug + '\'' + ", circulatingSupply=" + circulatingSupply + ", totalSupply=" + totalSupply + ", maxSupply=" + maxSupply + ", cmcRank=" + cmcRank + ", created=" + created + ", modified=" + modified + '}';
     }
 
     public Integer getId() {
@@ -113,21 +107,5 @@ public class CmcCoinUpdateCommand {
 
     public void setCmcRank(Integer cmcRank) {
         this.cmcRank = cmcRank;
-    }
-
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
-    public LocalDateTime getModified() {
-        return modified;
-    }
-
-    public void setModified(LocalDateTime modified) {
-        this.modified = modified;
     }
 }

@@ -22,13 +22,13 @@ public class CmcCoin {
 
     private String slug;
 
-    @Column(precision = 16, scale = 8)
+    @Column(precision = 32, scale = 12)
     private BigDecimal circulatingSupply;
 
-    @Column(precision = 16, scale = 8)
+    @Column(precision = 32, scale = 12)
     private BigDecimal totalSupply;
 
-    @Column(precision = 16, scale = 8)
+    @Column(precision = 32, scale = 12)
     private BigDecimal maxSupply;
 
     private Integer cmcRank;

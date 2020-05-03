@@ -9,6 +9,7 @@ import io.micronaut.http.HttpHeaders;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Delete;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.annotation.Put;
@@ -54,6 +55,12 @@ public class CmcCoinController {
         CmcCoin cmcCoin = cmcCoinRepository.save(command.getId(), command.getName(), command.getSymbol(), command.getSlug(), command.getCirculatingSupply(), command.getTotalSupply(), command.getMaxSupply(), command.getCmcRank());
 
         return HttpResponse.created(cmcCoin).headers(headers -> headers.location(location(cmcCoin.getId())));
+    }
+
+    @Delete("/{id}")
+    public HttpResponse delete(Integer id) {
+        cmcCoinRepository.deleteById(id);
+        return HttpResponse.noContent();
     }
 
     protected URI location(Integer id) {

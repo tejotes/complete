@@ -9,6 +9,7 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -52,7 +53,7 @@ public class CmcCoinRepositoryImpl implements CmcCoinRepository {
     public List<CmcCoin> findAll(@NotNull SortingAndOrderArguments args) {
         String qlString = "SELECT c FROM CmcCoin as c";
         if (args.getOrder().isPresent() && args.getSort().isPresent() && VALID_PROPERTY_NAMES.contains(args.getSort().get())) {
-            qlString += " ORDER BY g." + args.getSort().get() + " " + args.getOrder().get().toLowerCase();
+            qlString += " ORDER BY c." + args.getSort().get() + " " + args.getOrder().get().toLowerCase();
         }
         TypedQuery<CmcCoin> query = entityManager.createQuery(qlString, CmcCoin.class);
         query.setMaxResults(args.getMax().orElseGet(applicationConfiguration::getMax));
@@ -64,7 +65,7 @@ public class CmcCoinRepositoryImpl implements CmcCoinRepository {
     @Override
     @Transactional
     public int update(@NotNull Integer id, String name, String symbol, String slug, BigDecimal circulatingSupply, BigDecimal totalSupply, BigDecimal maxSupply, Integer cmcRank) {
-        return entityManager.createQuery("UPDATE CmcCoin c SET c.name = :name, c.symbol = :symbol, c.slug = :slug, c.circulatingSupply = :circulatingSupply, c.totalSupply =:totalSupply, c.maxSupply = :maxSupply, c.cmcRank = :cmcRank  where c.id = :id") //
+        return entityManager.createQuery("UPDATE CmcCoin c SET c.name = :name, c.symbol = :symbol, c.slug = :slug, c.circulatingSupply = :circulatingSupply, c.totalSupply =:totalSupply, c.maxSupply = :maxSupply, c.cmcRank = :cmcRank, c.modified = :cmcModified  where c.id = :id") //
                 .setParameter("id", id) //
                 .setParameter("name", name) //
                 .setParameter("symbol", symbol) //
@@ -73,6 +74,7 @@ public class CmcCoinRepositoryImpl implements CmcCoinRepository {
                 .setParameter("totalSupply", totalSupply) //
                 .setParameter("maxSupply", maxSupply) //
                 .setParameter("cmcRank", cmcRank) //
+                .setParameter("cmcModified", LocalDateTime.now()) //
                 .executeUpdate();
     }
 }
