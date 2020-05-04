@@ -94,7 +94,7 @@ public class CmcCoinControllerTest {
         cmcCoinList = client.toBlocking().retrieve(request, Argument.of(List.class, CmcCoin.class));
 
         assertEquals(1, cmcCoinList.size());
-        assertEquals("Test-2-Coin", cmcCoinList.get(0).getName());
+        assertEquals("Test1Coin", cmcCoinList.get(0).getName());
 
         request = HttpRequest.GET("/cmccoins/list?max=1&offset=10");
         cmcCoinList = client.toBlocking().retrieve(request, Argument.of(List.class, CmcCoin.class));

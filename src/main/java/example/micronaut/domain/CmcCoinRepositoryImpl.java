@@ -1,7 +1,6 @@
 package example.micronaut.domain;
 
 import example.micronaut.ApplicationConfiguration;
-import io.micronaut.configuration.hibernate.jpa.scope.CurrentSession;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,11 +15,11 @@ import java.util.Optional;
 
 public class CmcCoinRepositoryImpl implements CmcCoinRepository {
 
-    @PersistenceContext
+//    @PersistenceContext
     private final EntityManager entityManager;
     private final ApplicationConfiguration applicationConfiguration;
 
-    public CmcCoinRepositoryImpl(@CurrentSession EntityManager entityManager, ApplicationConfiguration applicationConfiguration) {
+    public CmcCoinRepositoryImpl(EntityManager entityManager, ApplicationConfiguration applicationConfiguration) {
         this.entityManager = entityManager;
         this.applicationConfiguration = applicationConfiguration;
     }
@@ -33,7 +32,6 @@ public class CmcCoinRepositoryImpl implements CmcCoinRepository {
 
     @Override
     @Transactional
-//    @Transactional(readOnly = false, timeout = -1, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public CmcCoin save(int id, String name, String symbol, String slug, BigDecimal circulatingSupply, BigDecimal totalSupply, BigDecimal maxSupply, Integer cmcRank) {
         CmcCoin cmcCoin = new CmcCoin(id, name, symbol, slug, circulatingSupply, totalSupply, maxSupply, cmcRank);
         entityManager.persist(cmcCoin);
