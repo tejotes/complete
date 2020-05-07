@@ -1,16 +1,19 @@
 package example.micronaut.domain;
 
 import io.micronaut.core.annotation.Introspected;
+import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
+@Data
 @Introspected
 public class CmcCoinUpdateCommand {
 
     @NotNull
-    private Integer id;
+    private Long id;
+
+    private Integer cmcId;
 
     private String name;
 
@@ -34,8 +37,9 @@ public class CmcCoinUpdateCommand {
         return "CmcCoinUpdateCommand{" + "id=" + id + ", name='" + name + '\'' + ", symbol='" + symbol + '\'' + ", slug='" + slug + '\'' + ", circulatingSupply=" + circulatingSupply + ", totalSupply=" + totalSupply + ", maxSupply=" + maxSupply + ", cmcRank=" + cmcRank + '}';
     }
 
-    public CmcCoinUpdateCommand(@NotNull Integer id, String name, String symbol, String slug, BigDecimal circulatingSupply, BigDecimal totalSupply, BigDecimal maxSupply, Integer cmcRank) {
+    public CmcCoinUpdateCommand(@NotNull Long id, Integer cmcId, String name, String symbol, String slug, BigDecimal circulatingSupply, BigDecimal totalSupply, BigDecimal maxSupply, Integer cmcRank) {
         this.id = id;
+        this.cmcId = cmcId;
         this.name = name;
         this.symbol = symbol;
         this.slug = slug;
@@ -45,67 +49,4 @@ public class CmcCoinUpdateCommand {
         this.cmcRank = cmcRank;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
-    }
-
-    public BigDecimal getCirculatingSupply() {
-        return circulatingSupply;
-    }
-
-    public void setCirculatingSupply(BigDecimal circulatingSupply) {
-        this.circulatingSupply = circulatingSupply;
-    }
-
-    public BigDecimal getTotalSupply() {
-        return totalSupply;
-    }
-
-    public void setTotalSupply(BigDecimal totalSupply) {
-        this.totalSupply = totalSupply;
-    }
-
-    public BigDecimal getMaxSupply() {
-        return maxSupply;
-    }
-
-    public void setMaxSupply(BigDecimal maxSupply) {
-        this.maxSupply = maxSupply;
-    }
-
-    public Integer getCmcRank() {
-        return cmcRank;
-    }
-
-    public void setCmcRank(Integer cmcRank) {
-        this.cmcRank = cmcRank;
-    }
 }

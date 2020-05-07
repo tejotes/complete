@@ -1,6 +1,6 @@
 package example.micronaut.service;
 
-import example.micronaut.domain.CmcCoin;
+import example.micronaut.domain.CmcCoinEntity;
 import example.micronaut.domain.CmcCoinRepository;
 import example.micronaut.domain.CmcCoinSaveCommand;
 import example.micronaut.domain.CmcCoinUpdateCommand;
@@ -33,41 +33,41 @@ public class CmcCoinController {
 
 
     @Get("/{id}")
-    public CmcCoin show(Integer id) {
+    public CmcCoinEntity show(Long id) {
         return cmcCoinRepository.findById(id).orElse(null);
     }
 
     @Put("/")
     public HttpResponse update(@Body @Valid CmcCoinUpdateCommand command) {
-        int numberOfEntitiesUpdated = cmcCoinRepository.update(command.getId(), command.getName(), command.getSymbol(), command.getSlug(), command.getCirculatingSupply(), command.getTotalSupply(), command.getMaxSupply(), command.getCmcRank());
+        int numberOfEntitiesUpdated = cmcCoinRepository.update(command.getId(), command.getCmcId(), command.getName(), command.getSymbol(), command.getSlug(), command.getCirculatingSupply(), command.getTotalSupply(), command.getMaxSupply(), command.getCmcRank());
 
         return HttpResponse.noContent().header(HttpHeaders.LOCATION, location(command.getId()).getPath());
     }
 
     @Get(value = "/list{?args*}")
-    public List<CmcCoin> list(@Valid SortingAndOrderArguments args) {
+    public List<CmcCoinEntity> list(@Valid SortingAndOrderArguments args) {
         return cmcCoinRepository.findAll(args);
     }
 
     @Post("/")
-    public HttpResponse<CmcCoin> save(@Body @Valid CmcCoinSaveCommand command) {
+    public HttpResponse<CmcCoinEntity> save(@Body @Valid CmcCoinSaveCommand command) {
         logger.info("repo={}, command={}", cmcCoinRepository, command);
-        CmcCoin cmcCoin = cmcCoinRepository.save(command.getId(), command.getName(), command.getSymbol(), command.getSlug(), command.getCirculatingSupply(), command.getTotalSupply(), command.getMaxSupply(), command.getCmcRank());
+        CmcCoinEntity cmcCoinEntity = cmcCoinRepository.save(command.getId(), command.getName(), command.getSymbol(), command.getSlug(), command.getCirculatingSupply(), command.getTotalSupply(), command.getMaxSupply(), command.getCmcRank());
 
-        return HttpResponse.created(cmcCoin).headers(headers -> headers.location(location(cmcCoin.getId())));
+        return HttpResponse.created(cmcCoinEntity).headers(headers -> headers.location(location(cmcCoinEntity.getId())));
     }
 
     @Delete("/{id}")
-    public HttpResponse delete(Integer id) {
+    public HttpResponse delete(Long id) {
         cmcCoinRepository.deleteById(id);
         return HttpResponse.noContent();
     }
 
-    protected URI location(Integer id) {
+    protected URI location(Long id) {
         return URI.create("/cmccoins/" + id);
     }
 
-    protected URI location(CmcCoin cmcCoin) {
-        return location(cmcCoin.getId());
+    protected URI location(CmcCoinEntity cmcCoinEntity) {
+        return location(cmcCoinEntity.getId());
     }
 }

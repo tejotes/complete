@@ -3,7 +3,6 @@ package example.micronaut.domain;
 import example.micronaut.ApplicationConfiguration;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
@@ -15,7 +14,6 @@ import java.util.Optional;
 
 public class CmcCoinRepositoryImpl implements CmcCoinRepository {
 
-//    @PersistenceContext
     private final EntityManager entityManager;
     private final ApplicationConfiguration applicationConfiguration;
 
@@ -26,21 +24,21 @@ public class CmcCoinRepositoryImpl implements CmcCoinRepository {
 
     @Override
     @Transactional
-    public Optional<CmcCoin> findById(Integer id) {
-        return Optional.ofNullable(entityManager.find(CmcCoin.class, id));
+    public Optional<CmcCoinEntity> findById(Long id) {
+        return Optional.ofNullable(entityManager.find(CmcCoinEntity.class, id));
     }
 
     @Override
     @Transactional
-    public CmcCoin save(int id, String name, String symbol, String slug, BigDecimal circulatingSupply, BigDecimal totalSupply, BigDecimal maxSupply, Integer cmcRank) {
-        CmcCoin cmcCoin = new CmcCoin(id, name, symbol, slug, circulatingSupply, totalSupply, maxSupply, cmcRank);
-        entityManager.persist(cmcCoin);
-        return cmcCoin;
+    public CmcCoinEntity save(Integer cmcId, String name, String symbol, String slug, BigDecimal circulatingSupply, BigDecimal totalSupply, BigDecimal maxSupply, Integer cmcRank) {
+        CmcCoinEntity cmcCoinEntity = new CmcCoinEntity(cmcId, name, symbol, slug, circulatingSupply, totalSupply, maxSupply, cmcRank);
+        entityManager.persist(cmcCoinEntity);
+        return cmcCoinEntity;
     }
 
     @Override
     @Transactional
-    public void deleteById(@NotNull Integer id) {
+    public void deleteById(@NotNull Long id) {
         findById(id).ifPresent(entityManager::remove);
     }
 
@@ -48,12 +46,12 @@ public class CmcCoinRepositoryImpl implements CmcCoinRepository {
 
     @Override
     @Transactional
-    public List<CmcCoin> findAll(@NotNull SortingAndOrderArguments args) {
-        String qlString = "SELECT c FROM CmcCoin as c";
+    public List<CmcCoinEntity> findAll(@NotNull SortingAndOrderArguments args) {
+        String qlString = "SELECT c FROM CmcCoinEntity as c";
         if (args.getOrder().isPresent() && args.getSort().isPresent() && VALID_PROPERTY_NAMES.contains(args.getSort().get())) {
             qlString += " ORDER BY c." + args.getSort().get() + " " + args.getOrder().get().toLowerCase();
         }
-        TypedQuery<CmcCoin> query = entityManager.createQuery(qlString, CmcCoin.class);
+        TypedQuery<CmcCoinEntity> query = entityManager.createQuery(qlString, CmcCoinEntity.class);
         query.setMaxResults(args.getMax().orElseGet(applicationConfiguration::getMax));
         args.getOffset().ifPresent(query::setFirstResult);
 
@@ -62,9 +60,10 @@ public class CmcCoinRepositoryImpl implements CmcCoinRepository {
 
     @Override
     @Transactional
-    public int update(@NotNull Integer id, String name, String symbol, String slug, BigDecimal circulatingSupply, BigDecimal totalSupply, BigDecimal maxSupply, Integer cmcRank) {
-        return entityManager.createQuery("UPDATE CmcCoin c SET c.name = :name, c.symbol = :symbol, c.slug = :slug, c.circulatingSupply = :circulatingSupply, c.totalSupply =:totalSupply, c.maxSupply = :maxSupply, c.cmcRank = :cmcRank, c.modified = :cmcModified  where c.id = :id") //
+    public int update(@NotNull Long id, Integer cmcId, String name, String symbol, String slug, BigDecimal circulatingSupply, BigDecimal totalSupply, BigDecimal maxSupply, Integer cmcRank) {
+        return entityManager.createQuery("UPDATE CmcCoinEntity c SET c.cmcId = :cmcId, c.name = :name, c.symbol = :symbol, c.slug = :slug, c.circulatingSupply = :circulatingSupply, c.totalSupply =:totalSupply, c.maxSupply = :maxSupply, c.cmcRank = :cmcRank, c.modified = :cmcModified  where c.id = :id") //
                 .setParameter("id", id) //
+                .setParameter("cmcId", cmcId) //
                 .setParameter("name", name) //
                 .setParameter("symbol", symbol) //
                 .setParameter("slug", slug) //

@@ -1,6 +1,6 @@
 package example.micronaut.service;
 
-import example.micronaut.domain.CmcCoin;
+import example.micronaut.domain.CmcCoinEntity;
 import example.micronaut.domain.CmcCoinSaveCommand;
 import example.micronaut.domain.CmcCoinUpdateCommand;
 import io.micronaut.core.type.Argument;
@@ -52,7 +52,7 @@ public class CmcCoinControllerTest {
 
     @Test
     void testCoinCrudOperations() {
-        List<Integer> coinIdList = new ArrayList<>();
+        List<Long> coinIdList = new ArrayList<>();
 
         HttpRequest request = HttpRequest.POST("/cmccoins", new CmcCoinSaveCommand(101, "Test1Coin", "T1C", "T1C", BigDecimal.valueOf(10), BigDecimal.valueOf(10), BigDecimal.valueOf(10), 101));
         HttpResponse response = client.toBlocking().exchange(request);
@@ -62,47 +62,47 @@ public class CmcCoinControllerTest {
         request = HttpRequest.POST("/cmccoins", new CmcCoinSaveCommand(102, "Test2Coin", "T2C", "T2C", BigDecimal.valueOf(20), BigDecimal.valueOf(20), BigDecimal.valueOf(20), 102));
         response = client.toBlocking().exchange(request);
         assertEquals(HttpStatus.CREATED, response.getStatus());
-        Integer id = entityId(response);
+        Long id = entityId(response);
         coinIdList.add(id);
         request = HttpRequest.GET("/cmccoins/" + id);
 
-        CmcCoin cmcCoin = client.toBlocking().retrieve(request, CmcCoin.class);
-        System.out.println("cmcCoin="+cmcCoin);
-        assertEquals("Test2Coin", cmcCoin.getName());
+        CmcCoinEntity cmcCoinEntity = client.toBlocking().retrieve(request, CmcCoinEntity.class);
+        System.out.println("cmcCoin=" + cmcCoinEntity);
+        assertEquals("Test2Coin", cmcCoinEntity.getName());
 
-        request = HttpRequest.PUT("/cmccoins", new CmcCoinUpdateCommand(id, "Test-2-Coin","T2C", "T2C", BigDecimal.valueOf(20), BigDecimal.valueOf(20), BigDecimal.valueOf(20), 102));
+        request = HttpRequest.PUT("/cmccoins", new CmcCoinUpdateCommand(id, 102, "Test-2-Coin","T2C", "T2C", BigDecimal.valueOf(20), BigDecimal.valueOf(20), BigDecimal.valueOf(20), 102));
         response = client.toBlocking().exchange(request);
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatus());
 
         request = HttpRequest.GET("/cmccoins/" + id);
-        cmcCoin = client.toBlocking().retrieve(request, CmcCoin.class);
-        assertEquals("Test-2-Coin", cmcCoin.getName());
+        cmcCoinEntity = client.toBlocking().retrieve(request, CmcCoinEntity.class);
+        assertEquals("Test-2-Coin", cmcCoinEntity.getName());
 
         request = HttpRequest.GET("/cmccoins/list");
-        List<CmcCoin> cmcCoinList = client.toBlocking().retrieve(request, Argument.of(List.class, CmcCoin.class));
+        List<CmcCoinEntity> cmcCoinEntityList = client.toBlocking().retrieve(request, Argument.of(List.class, CmcCoinEntity.class));
 
-        assertEquals(2, cmcCoinList.size());
+        assertEquals(2, cmcCoinEntityList.size());
 
         request = HttpRequest.GET("/cmccoins/list?max=1");
-        cmcCoinList = client.toBlocking().retrieve(request, Argument.of(List.class, CmcCoin.class));
+        cmcCoinEntityList = client.toBlocking().retrieve(request, Argument.of(List.class, CmcCoinEntity.class));
 
-        assertEquals(1, cmcCoinList.size());
-        assertEquals("Test1Coin", cmcCoinList.get(0).getName());
+        assertEquals(1, cmcCoinEntityList.size());
+        assertEquals("Test1Coin", cmcCoinEntityList.get(0).getName());
 
         request = HttpRequest.GET("/cmccoins/list?max=1&order=desc&sort=name");
-        cmcCoinList = client.toBlocking().retrieve(request, Argument.of(List.class, CmcCoin.class));
+        cmcCoinEntityList = client.toBlocking().retrieve(request, Argument.of(List.class, CmcCoinEntity.class));
 
-        assertEquals(1, cmcCoinList.size());
-        assertEquals("Test1Coin", cmcCoinList.get(0).getName());
+        assertEquals(1, cmcCoinEntityList.size());
+        assertEquals("Test1Coin", cmcCoinEntityList.get(0).getName());
 
         request = HttpRequest.GET("/cmccoins/list?max=1&offset=10");
-        cmcCoinList = client.toBlocking().retrieve(request, Argument.of(List.class, CmcCoin.class));
+        cmcCoinEntityList = client.toBlocking().retrieve(request, Argument.of(List.class, CmcCoinEntity.class));
 
-        assertEquals(0, cmcCoinList.size());
+        assertEquals(0, cmcCoinEntityList.size());
 
         // cleanup:
-        for (Integer coinId : coinIdList) {
+        for (Long coinId : coinIdList) {
             request = HttpRequest.DELETE("/cmccoins/" + coinId);
             response = client.toBlocking().exchange(request);
             assertEquals(HttpStatus.NO_CONTENT, response.getStatus());
@@ -115,7 +115,7 @@ public class CmcCoinControllerTest {
      * @param response
      * @return
      */
-    protected Integer entityId(HttpResponse response) {
+    protected Long entityId(HttpResponse response) {
         String path = "/cmccoins/";
         String value = response.header(HttpHeaders.LOCATION);
         if (value == null) {
@@ -123,7 +123,7 @@ public class CmcCoinControllerTest {
         }
         int index = value.indexOf(path);
         if (index != -1) {
-            return Integer.valueOf(value.substring(index + path.length()));
+            return Long.valueOf(value.substring(index + path.length()));
         }
         return null;
     }

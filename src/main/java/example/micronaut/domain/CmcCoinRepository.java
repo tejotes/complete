@@ -7,13 +7,13 @@ import java.util.Optional;
 
 public interface CmcCoinRepository {
 
-    Optional<CmcCoin> findById(Integer id);
+    Optional<CmcCoinEntity> findById(Long id);
 
-    CmcCoin save(int id, String name, String symbol, String slug, BigDecimal circulatingSupply, BigDecimal totalSupply, BigDecimal maxSupply, Integer cmcRank);
+    CmcCoinEntity save(Integer cmcId, String name, String symbol, String slug, BigDecimal circulatingSupply, BigDecimal totalSupply, BigDecimal maxSupply, Integer cmcRank);
 
-    void deleteById(@NotNull Integer id);
+    void deleteById(@NotNull Long id);
 
-    List<CmcCoin> findAll(@NotNull SortingAndOrderArguments args);
+    List<CmcCoinEntity> findAll(@NotNull SortingAndOrderArguments args);
 
-    int update(@NotNull Integer id, String name, String symbol, String slug, BigDecimal circulatingSupply, BigDecimal totalSupply, BigDecimal maxSupply, Integer cmcRank);
+    int update(@NotNull Long id, Integer cmcId, String name, String symbol, String slug, BigDecimal circulatingSupply, BigDecimal totalSupply, BigDecimal maxSupply, Integer cmcRank);
 }
