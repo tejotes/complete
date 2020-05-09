@@ -2,6 +2,7 @@ package example.micronaut.domain;
 
 import example.micronaut.ApplicationConfiguration;
 
+import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+@Singleton
 public class CmcCoinRepositoryImpl implements CmcCoinRepository {
 
     private final EntityManager entityManager;

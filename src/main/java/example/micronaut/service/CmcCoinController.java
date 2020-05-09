@@ -4,6 +4,8 @@ import example.micronaut.domain.CmcCoinEntity;
 import example.micronaut.domain.CmcCoinRepository;
 import example.micronaut.domain.CmcCoinSaveCommand;
 import example.micronaut.domain.CmcCoinUpdateCommand;
+import example.micronaut.domain.CmcQuoteEntity;
+import example.micronaut.domain.CmcQuoteRepository;
 import example.micronaut.domain.SortingAndOrderArguments;
 import io.micronaut.http.HttpHeaders;
 import io.micronaut.http.HttpResponse;
@@ -13,6 +15,7 @@ import io.micronaut.http.annotation.Delete;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.annotation.Put;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +23,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+@Slf4j
 @Controller("/cmccoins")
 public class CmcCoinController {
 
@@ -27,10 +31,12 @@ public class CmcCoinController {
 
     protected final CmcCoinRepository cmcCoinRepository;
 
-    public CmcCoinController(CmcCoinRepository cmcCoinRepository) {
-        this.cmcCoinRepository = cmcCoinRepository;
-    }
+    protected final CmcQuoteRepository cmcQuoteRepository;
 
+    public CmcCoinController(CmcCoinRepository cmcCoinRepository, CmcQuoteRepository cmcQuoteRepository) {
+        this.cmcCoinRepository = cmcCoinRepository;
+        this.cmcQuoteRepository = cmcQuoteRepository;
+    }
 
     @Get("/{id}")
     public CmcCoinEntity show(Long id) {
@@ -42,6 +48,24 @@ public class CmcCoinController {
         int numberOfEntitiesUpdated = cmcCoinRepository.update(command.getId(), command.getCmcId(), command.getName(), command.getSymbol(), command.getSlug(), command.getCirculatingSupply(), command.getTotalSupply(), command.getMaxSupply(), command.getCmcRank());
 
         return HttpResponse.noContent().header(HttpHeaders.LOCATION, location(command.getId()).getPath());
+    }
+
+    @Put("/quote")
+    public HttpResponse quote(@Body @Valid CmcQuoteResponse quoteResponse) {
+
+        log.info("quoteResponse={}", quoteResponse);
+
+        for (Integer coinId : quoteResponse.getData().keySet()) {
+            CmcQuoteResult cmcQuoteResult = quoteResponse.getData().get(coinId);
+            CmcCoinEntity cmcCoinEntity = cmcCoinRepository.save(cmcQuoteResult.getId(), cmcQuoteResult.getName(), cmcQuoteResult.getSymbol(), cmcQuoteResult.getSlug(), cmcQuoteResult.getCirculatingSupply(), cmcQuoteResult.getTotalSupply(), cmcQuoteResult.getMaxSupply(), cmcQuoteResult.getCmcRank());
+
+            for (String currencyId : cmcQuoteResult.getQuoteMap().keySet()) {
+                CmcQuote cmcQuote = cmcQuoteResult.getQuoteMap().get(currencyId);
+                CmcQuoteEntity quoteEntity = cmcQuoteRepository.save(cmcCoinEntity, currencyId, cmcQuote.getPrice(), cmcQuote.getMarketCap(), cmcQuote.getPercentChange1h(), cmcQuote.getPercentChange24h(), cmcQuote.getPercentChange7d(), cmcQuote.getLastUpdated());
+            }
+        }
+
+        return HttpResponse.noContent();
     }
 
     @Get(value = "/list{?args*}")
