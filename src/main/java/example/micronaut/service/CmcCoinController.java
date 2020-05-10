@@ -53,15 +53,17 @@ public class CmcCoinController {
     @Put("/quote")
     public HttpResponse quote(@Body @Valid CmcQuoteResponse quoteResponse) {
 
-        log.info("quoteResponse={}", quoteResponse);
+        log.debug("quoteResponse={}", quoteResponse);
 
-        for (Integer coinId : quoteResponse.getData().keySet()) {
-            CmcQuoteResult cmcQuoteResult = quoteResponse.getData().get(coinId);
+        for (String key : quoteResponse.getData().keySet()) {
+            CmcQuoteResult cmcQuoteResult = quoteResponse.getData().get(key);
             CmcCoinEntity cmcCoinEntity = cmcCoinRepository.save(cmcQuoteResult.getId(), cmcQuoteResult.getName(), cmcQuoteResult.getSymbol(), cmcQuoteResult.getSlug(), cmcQuoteResult.getCirculatingSupply(), cmcQuoteResult.getTotalSupply(), cmcQuoteResult.getMaxSupply(), cmcQuoteResult.getCmcRank());
 
             for (String currencyId : cmcQuoteResult.getQuoteMap().keySet()) {
                 CmcQuote cmcQuote = cmcQuoteResult.getQuoteMap().get(currencyId);
-                CmcQuoteEntity quoteEntity = cmcQuoteRepository.save(cmcCoinEntity, currencyId, cmcQuote.getPrice(), cmcQuote.getMarketCap(), cmcQuote.getPercentChange1h(), cmcQuote.getPercentChange24h(), cmcQuote.getPercentChange7d(), cmcQuote.getLastUpdated());
+                if (cmcQuote != null) {
+                    CmcQuoteEntity quoteEntity = cmcQuoteRepository.save(cmcCoinEntity, currencyId, cmcQuote.getPrice(), cmcQuote.getMarketCap(), cmcQuote.getPercentChange1h(), cmcQuote.getPercentChange24h(), cmcQuote.getPercentChange7d(), cmcQuote.getLastUpdated());
+                }
             }
         }
 

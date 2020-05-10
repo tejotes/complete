@@ -33,13 +33,13 @@ public class CmcCoinEntity {
 
     private String slug;
 
-    @Column(precision = 32, scale = 12)
+    @Column(precision = 36, scale = 18)
     private BigDecimal circulatingSupply;
 
-    @Column(precision = 32, scale = 12)
+    @Column(precision = 36, scale = 18)
     private BigDecimal totalSupply;
 
-    @Column(precision = 32, scale = 12)
+    @Column(precision = 36, scale = 18)
     private BigDecimal maxSupply;
 
     private Integer cmcRank;
@@ -61,7 +61,6 @@ public class CmcCoinEntity {
         this.totalSupply = totalSupply;
         this.maxSupply = maxSupply;
         this.cmcRank = cmcRank;
-        log.info("new {}", this);
     }
 
     @PrePersist

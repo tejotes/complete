@@ -7,7 +7,7 @@ import java.util.Map;
 @Introspected
 public class CmcQuoteResponse {
 
-    private Map<Integer, CmcQuoteResult> data;
+    private Map<String, CmcQuoteResult> data;
 
     private CmcQuoteStatus status;
 
@@ -16,11 +16,11 @@ public class CmcQuoteResponse {
         return "CmcQuoteResponse{" + "data=" + data + ", status=" + status + '}';
     }
 
-    public Map<Integer, CmcQuoteResult> getData() {
+    public Map<String, CmcQuoteResult> getData() {
         return data;
     }
 
-    public void setData(Map<Integer, CmcQuoteResult> data) {
+    public void setData(Map<String, CmcQuoteResult> data) {
         this.data = data;
     }
 

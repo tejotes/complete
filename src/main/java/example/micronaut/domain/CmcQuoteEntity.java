@@ -34,22 +34,21 @@ public class CmcQuoteEntity {
     @Column(length = 16, nullable = false)
     private String currencyId;
 
-    @Column(precision = 16, scale = 8)
+    @Column(precision = 36, scale = 18)
     private BigDecimal price;
 
-    @Column(precision = 16, scale = 8)
+    @Column(precision = 36, scale = 18)
     private BigDecimal marketCap;
 
-    @Column(precision = 16, scale = 8)
-    private double pctChangeH1;
+    @Column(precision = 36, scale = 18)
+    private Double pctChangeH1;
 
-    @Column(precision = 16, scale = 8)
-    private double pctChangeH24;
+    @Column(precision = 36, scale = 18)
+    private Double pctChangeH24;
 
-    @Column(precision = 16, scale = 8)
-    private double pctChangeD7;
+    @Column(precision = 36, scale = 18)
+    private Double pctChangeD7;
 
-    @Column(scale = 3)
     private LocalDateTime lastUpdated;
 
     @Enumerated(EnumType.STRING)

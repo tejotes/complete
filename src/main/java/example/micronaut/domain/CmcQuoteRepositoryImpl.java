@@ -30,7 +30,7 @@ public class CmcQuoteRepositoryImpl implements CmcQuoteRepository {
 
     @Override
     @Transactional
-    public CmcQuoteEntity save(CmcCoinEntity cmcCoinEntity, String currencyId, BigDecimal price, BigDecimal marketCap, double pctChangeH1, double pctChangeH24, double pctChangeD7, LocalDateTime lastUpdated) {
+    public CmcQuoteEntity save(CmcCoinEntity cmcCoinEntity, String currencyId, BigDecimal price, BigDecimal marketCap, Double pctChangeH1, Double pctChangeH24, Double pctChangeD7, LocalDateTime lastUpdated) {
         CmcQuoteEntity cmcQuoteEntity = new CmcQuoteEntity(cmcCoinEntity, currencyId, price, marketCap, pctChangeH1, pctChangeH24, pctChangeD7, lastUpdated);
         entityManager.persist(cmcQuoteEntity);
         return cmcQuoteEntity;
