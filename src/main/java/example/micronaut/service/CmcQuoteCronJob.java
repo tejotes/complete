@@ -12,7 +12,7 @@ public class CmcQuoteCronJob {
 
     public static final String CMC_SYMBOL_CSV = "BTC,ETH,XRP,BCH,BSV,LTC,BNB,EOS,XTZ,XLM,LINK,ADA,LEO,CRO,XMR,TRX,NEO,HT,ETC,DASH,MIOTA,ATOM,XEM,ZEC,MKR,BTG,LSK,REP,GBYTE,PAY";
     public static final String CMC_CURRENCY_CSV = "EUR";
-    public static final String CMC_KEY = "XXXXXXXXXXXXXXXXXXXXXX";
+    public static final String CMC_KEY = "7ebeed58-16cd-4ca9-8999-5c9766119608";
 
     @Inject
     CmcClient cmcClient;
