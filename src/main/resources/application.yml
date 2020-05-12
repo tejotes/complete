@@ -13,6 +13,7 @@ jpa:
   default:
     packages-to-scan:
       - 'example.micronaut.domain'
+      - 'example.micronaut.wallet.impl.domain'
     properties:
       hibernate:
         hbm2ddl:

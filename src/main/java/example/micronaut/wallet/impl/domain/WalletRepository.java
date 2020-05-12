@@ -34,7 +34,8 @@ public class WalletRepository {
                 .setParameter("refid", refid);
 
         // return result
-        return Optional.ofNullable(query.getSingleResult());
+        List<WalletEntity> walletEntityList = query.getResultList();
+        return Optional.ofNullable(walletEntityList.isEmpty() ? null : walletEntityList.get(0));
     }
 
     @Transactional

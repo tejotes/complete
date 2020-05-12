@@ -20,7 +20,7 @@ public class CmcQuoteCronJob {
     @Inject
     CmcCoinController cmcCoinController;
 
-    @Scheduled(cron = "5 0/15 * ? * *")
+    //@Scheduled(cron = "5 0/15 * ? * *")
     public void getCmcQuotes() {
         // start timer
         String vorgang = String.format("CmcQuoteCronJob.getCmcQuotes()");
