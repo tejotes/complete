@@ -50,7 +50,7 @@ public class CmcCoinController {
         return HttpResponse.noContent().header(HttpHeaders.LOCATION, location(command.getId()).getPath());
     }
 
-    @Put("/quote")
+    @Post("/quote")
     public HttpResponse quote(@Body @Valid CmcQuoteResponse quoteResponse) {
 
         log.debug("quoteResponse={}", quoteResponse);
