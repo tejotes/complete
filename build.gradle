@@ -12,6 +12,7 @@ group "example.micronaut"
 repositories {
     mavenCentral()
     maven { url "https://jcenter.bintray.com" }
+    maven { url "https://repo1.maven.org/maven2/" }
 }
 
 configurations {
@@ -39,10 +40,14 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api"
     testImplementation "io.micronaut.test:micronaut-test-junit5"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+    implementation("io.micronaut:micronaut-views:$micronautViewsVersion")
+    implementation("io.micronaut:micronaut-views-core:$micronautViewsVersion")
+    implementation("io.micronaut.data:micronaut-data-jdbc:$micronautDataVersion")
     implementation "io.micronaut.configuration:micronaut-hibernate-jpa"
     implementation "io.micronaut.configuration:micronaut-jdbc-hikari"
+    implementation("io.micronaut:micronaut-views-freemarker:1.3.2")
     implementation "javax.persistence:javax.persistence-api:2.2"
-    implementation "io.micronaut.data:micronaut-data-jdbc:$micronautDataVersion"
+    runtime ("org.freemarker:freemarker:2.3.28")
     runtime "com.h2database:h2"
     runtime 'org.postgresql:postgresql:42.2.4'
 }

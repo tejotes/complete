@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Data
@@ -38,7 +39,7 @@ public class TransferEntity {
 
     private LocalDateTime modified;
 
-    @Column(nullable = false)
+    @Column(length = 60, nullable = false)
     private String refid;
 
     @Column(nullable = false)
@@ -47,10 +48,10 @@ public class TransferEntity {
     @Column(nullable = false)
     private LocalDateTime transferTime;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 36, scale = 18)
     private BigDecimal amount;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 16)
     private String coinSymbol;
 
     private String comment;
@@ -64,10 +65,10 @@ public class TransferEntity {
     public TransferEntity(@NonNull TransferCreateCommand transferCreateCommand) {
         this.refid = (transferCreateCommand.getRefid() != null) ? transferCreateCommand.getRefid() : UUID.randomUUID().toString();
         this.walletRefid = transferCreateCommand.getWalletRefid();
-        this.transferTime = transferCreateCommand.getTransferTime();
+        this.transferTime = Optional.ofNullable(transferCreateCommand.getTransferTime()).orElse(LocalDateTime.now());
         this.amount = transferCreateCommand.getAmount();
         this.coinSymbol = transferCreateCommand.getCoinSymbol();
-        this.coinSymbol = transferCreateCommand.getComment();
+        this.comment = transferCreateCommand.getComment();
     }
 
     public TransferInfo toTransferInfo() {

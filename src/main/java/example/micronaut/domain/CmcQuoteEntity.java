@@ -1,5 +1,6 @@
 package example.micronaut.domain;
 
+import example.micronaut.service.CmcQuote;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -69,6 +70,16 @@ public class CmcQuoteEntity {
         this.lastUpdated = lastUpdated;
     }
 
+    public CmcQuote toQuote() {
+        return CmcQuote.builder() //
+                .lastUpdated(this.lastUpdated) //
+                .price(this.price) //
+                .marketCap(this.marketCap) //
+                .percentChange1h(this.pctChangeH1) //
+                .percentChange24h(this.pctChangeH24) //
+                .percentChange7d(this.pctChangeD7) //
+                .build();
+    }
     // USD=CmcQuote{
     // price=6602.60701122,
     // marketCap=113563929433.21645,

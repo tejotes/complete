@@ -8,4 +8,6 @@ public interface CmcQuoteRepository {
     Optional<CmcQuoteEntity> findById(Long id);
 
     CmcQuoteEntity save(CmcCoinEntity cmcCoinEntity, String currencyId, BigDecimal price, BigDecimal marketCap, Double pctChangeH1, Double pctChangeH24, Double pctChangeD7, LocalDateTime lastUpdated);
+
+    Optional<CmcQuoteEntity> getLatestByCoinSymbolAndCurrencyId(String coinSymbol, String currencyId);
 }

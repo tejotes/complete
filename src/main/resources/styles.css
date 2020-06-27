@@ -1,0 +1,28 @@
+h1{
+    font-size: 30px;
+    color: #000;
+    text-transform: uppercase;
+    font-weight: 300;
+    text-align: left;
+    margin-bottom: 15px;
+}
+table, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: right;
+    padding: 15px;
+}
+th {
+    border: 1px solid black;
+    text-align: center;
+    padding: 5px;
+}
+.tbl-header{
+    background-color: rgba(255,255,255,0.3);
+}
+.tbl-content{
+    height:300px;
+    overflow-x:auto;
+    margin-top: 0px;
+    border: 1px solid rgba(255,255,255,0.3);
+}

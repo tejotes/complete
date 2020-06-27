@@ -5,9 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -34,5 +36,21 @@ public class CmcQuoteRepositoryImpl implements CmcQuoteRepository {
         CmcQuoteEntity cmcQuoteEntity = new CmcQuoteEntity(cmcCoinEntity, currencyId, price, marketCap, pctChangeH1, pctChangeH24, pctChangeD7, lastUpdated);
         entityManager.persist(cmcQuoteEntity);
         return cmcQuoteEntity;
+    }
+
+    @Override
+    @Transactional
+    public Optional<CmcQuoteEntity> getLatestByCoinSymbolAndCurrencyId(String coinSymbol, String currencyId) {
+        // create and execute query
+        String qlString = "SELECT q FROM CmcQuoteEntity q WHERE q.coinSymbol = :coinSymbol AND q.currencyId = :currencyId ORDER BY q.lastUpdated DESC";
+        TypedQuery<CmcQuoteEntity> query = entityManager.createQuery(qlString, CmcQuoteEntity.class) //
+                .setParameter("coinSymbol", coinSymbol) //
+                .setParameter("currencyId", currencyId) //
+                .setFirstResult(0) //
+                .setMaxResults(1);
+
+        // return result
+        List<CmcQuoteEntity> quoteEntityList = query.getResultList();
+        return Optional.ofNullable(quoteEntityList.isEmpty() ? null : quoteEntityList.get(0));
     }
 }

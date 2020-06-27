@@ -2,30 +2,35 @@ package example.micronaut.wallet.impl.service;
 
 import example.micronaut.wallet.api.dto.TransferInfo;
 import example.micronaut.wallet.api.service.TransferQuery;
+import example.micronaut.wallet.impl.domain.TransferEntity;
+import example.micronaut.wallet.impl.domain.TransferRepository;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Singleton;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Singleton
 public class TransferQueryImpl implements TransferQuery {
 
-    private final TransferQuery transferQuery;
+    private final TransferRepository transferRepository;
 
-    public TransferQueryImpl(TransferQuery transferQuery) {
-        this.transferQuery = transferQuery;
+    public TransferQueryImpl(TransferRepository transferRepository) {
+        this.transferRepository = transferRepository;
     }
 
     @Override
     public Optional<TransferInfo> queryByRefid(String refid) {
-        return Optional.empty();
+        return transferRepository.findByRefid(refid).map(TransferEntity::toTransferInfo);
     }
 
     @Override
     public List<TransferInfo> listAll() {
-        return null;
+        return transferRepository.findAll().stream() //
+                .map(TransferEntity::toTransferInfo) //
+                .collect(Collectors.toList());
     }
 
     @Override
